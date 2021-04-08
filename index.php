@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -61,19 +62,25 @@
             </div>
             <div class="row mb-5">
 
-              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
-                <div class="block-4 text-center border">
-                  <figure class="block-4-image">
-                    <a href="shop-single.php"><img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid"></a>
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="shop-single.php">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
+            <?php
+              include('./php/conexion.php');
+              $resultado = $conexion ->query("SELECT * FROM libros order by idlibro desc")or die($conexion-> error);
+
+              while($row = mysqli_fetch_array($resultado)){
+            ?>
+                <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                  <div class="block-4 text-center border">
+                    <figure class="block-4-image">
+                      <a href="shop-single.php?id=<?php echo $row['idlibro']?>"><img src="images/<?php echo $row['imagen']?>" alt="<?php echo $row['nombre']?>" class="img-fluid"></a>
+                    </figure>
+                    <div class="block-4-text p-4">
+                      <h3><a href="shop-single.php?id=<?php echo $row['idlibro']?>"><?php echo $row['nombre']?></a></h3>
+                      <p class="mb-0"><?php echo $row['descripcion']?></p>
+                      <p class="text-primary font-weight-bold">$<?php echo $row['precio']?></p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            
+            <?php }?>
 
 
             </div>

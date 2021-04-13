@@ -34,7 +34,7 @@
 
             <div class="row">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Libros: </h2></div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto">
                     <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -63,9 +63,18 @@
             <div class="row mb-5">
 
             <?php
+              $limite = 6;
               include('./php/conexion.php');
-              $resultado = $conexion ->query("SELECT * FROM libros order by idlibro desc")or die($conexion-> error);
+              $total_query = $conexion->query("SELECT count(*) FROM libros ") or die($conexion->error);
+              $total_libros = mysqli_fetch_row($total_query);
+              $total_botones = round($total_libros[0]/$limite);
 
+              if(isset($_GET['limite'])){
+                $resultado = $conexion ->query("SELECT * FROM libros where inventario > 0 order by idlibro desc limit ".$_GET['limite'].",".$limite)or die($conexion-> error);
+              }else{
+                $resultado = $conexion ->query("SELECT * FROM libros where inventario > 0 order by idlibro desc limit " .$limite)or die($conexion-> error);
+              }
+              
               while($row = mysqli_fetch_array($resultado)){
             ?>
                 <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
@@ -88,13 +97,23 @@
               <div class="col-md-12 text-center">
                 <div class="site-block-27">
                   <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
+                    
+                      <?php
+                      if(isset($_GET['limite']) and $_GET['limite']!=0){
+                        echo '<li><a href="index.php?limite='.($_GET['limite']-6).'">&lt;</a></li>';
+                      }
+                        for($k=0;$k<$total_botones;$k++){
+                            echo '<li><a href="index.php?limite='.($k*6).'">'.($k+1).'</a></li>';
+                        }
+                      if(isset($_GET['limite'])){
+                          if($_GET['limite']+6<$total_botones*6){
+                            echo '<li><a href="index.php?limite='.($_GET['limite']+6).'">&gt;</a></li>';
+                          }
+                      }else{
+                          echo '<li><a href="index.php?limite=6">&gt;</a></li>';
+                      }
+                      ?>
+                    
                   </ul>
                 </div>
               </div>
@@ -201,7 +220,7 @@
         
       </div>
     </div>
-    <?php include("./layouts/header.php"); ?> 
+    <?php include("./layouts/footer.php"); ?> 
 
     
   </div>

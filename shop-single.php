@@ -71,72 +71,33 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Featured Products</h2>
+            <h2>Libros recomendados</h2>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="nonloop-block-3 owl-carousel">
+              <!-- item recomendado -->
+
+              <?php
+
+              $res1 = $conexion -> query("select * from libros where idcategoria = ".$row[7]. " and idlibro != ".$row[0]) or die($conexion->error);
+
+              while($row2 = mysqli_fetch_array($res1)){
+              ?>
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
-                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
+                    <img src="images/<?php echo $row2[6]?>" alt="<?php echo $row2[6]?>" class="img-fluid">
                   </figure>
                   <div class="block-4-text p-4">
-                    <h3><a href="#">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
+                    <h3><a href="./shop-single.php?id=<?php echo $row2[0]?>"><?php echo $row2[1]?></a></h3>
+                    <p class="mb-0"><?php echo $row2[4]?></p>
+                    <p class="text-primary font-weight-bold">$<?php echo $row2[3]?></p>
                   </div>
                 </div>
               </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Polo Shirt</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
+              <?php } ?>
             </div>
           </div>
         </div>
